@@ -1,0 +1,38 @@
+.top-buffer{
+  margin-top: 20px;
+}
+
+.about-page{
+  position: relative;
+  top: -20px;
+}
+
+.about-page .jumbotron{
+  margin: 0;
+  background:rgba(9,69,95,0.8);
+  color: white;
+  border-radius: 0 !important;
+}
+
+.container {
+  width: 1827px;
+}
+
+.row .col-lg-1 {
+  width:  260px;
+  height: 100px;
+  border-style: outset;
+}
+
+.pull-right {
+  float: right;
+}
+
+.btn-group {
+  margin-right: 100px;
+}
+/*React apply activeClassName to <a> element, but Bootstrap active class is over <li> element*/
+.navbar .nav .active, .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+  background: #e7e7e7 !important;
+  color: #333 !important;
+}
