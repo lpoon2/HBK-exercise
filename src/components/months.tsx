@@ -24,11 +24,11 @@ export class Month extends React.Component<{}, State> {
   public render(){
     return (
       <div className="container">
-        <Week/>
-        <Week/>
-        <Week/>
-        <Week/>
-        <Week/>
+        <Week startDate={27} />
+        <Week startDate={3} />
+        <Week startDate={10}/>
+        <Week startDate={17}/>
+        <Week startDate={24}/>
       </div>
     );
   }

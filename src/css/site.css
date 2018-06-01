@@ -13,14 +13,19 @@
   color: white;
   border-radius: 0 !important;
 }
-
+.page-header {
+  padding-bottom: 1px;
+}
+.month {
+  padding-left: 1%;
+}
 .container {
-  width: 1827px;
+  width: 1820px;
 }
 
 .row .col-lg-1 {
   width:  260px;
-  height: 100px;
+  height: 150px;
   border-style: outset;
 }
 
