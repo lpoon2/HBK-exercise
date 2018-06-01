@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DateCell } from '../model/date';
+import { Notification } from './notification';
 
 interface State {
   dates: DateCell[];
@@ -35,31 +36,45 @@ export class Week extends React.Component<Props,State>{
         <div className ="row">
           <div className="col-lg-1">
             Sunday
-            <span className="pull-right">{this.getDate((this.props.startDate), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate} month={this.props.month} year={this.props.year}/>
           </div>
           <div className ="col-lg-1">
             Monday
-            <span className="pull-right">{this.getDate((this.props.startDate+1), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate+1), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate+1} month={this.props.month} year={this.props.year}/>
           </div>
           <div className="col-lg-1">
             Tuesday
-            <span className="pull-right">{this.getDate((this.props.startDate+2), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate+2), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate+2} month={this.props.month} year={this.props.year}/>
           </div>
           <div className="col-lg-1">
             Wednesday
-            <span className="pull-right">{this.getDate((this.props.startDate+3), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate+3), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate+3} month={this.props.month} year={this.props.year}/>
           </div>
           <div className="col-lg-1">
             Thursday
-            <span className="pull-right">{this.getDate((this.props.startDate+4), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate+4), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate+4} month={this.props.month} year={this.props.year}/>
           </div>
           <div className="col-lg-1">
             Friday
-            <span className="pull-right">{this.getDate((this.props.startDate+5), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate+5), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate+5} month={this.props.month} year={this.props.year}/>
           </div>
           <div className="col-lg-1">
             Saturday
-            <span className="pull-right">{this.getDate((this.props.startDate+6), this.daysInMonth())}</span>
+            <span className="pull-right"></span>
+            <p>{this.getDate((this.props.startDate+6), this.daysInMonth())}</p>
+            <Notification date={this.props.startDate+6} month={this.props.month} year={this.props.year}/>
           </div>
         </div>
     );

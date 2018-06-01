@@ -13,7 +13,10 @@ export class Calendar extends React.Component<{}, State> {
 
   constructor() {
     super();
-    this.state = { startDates: calendarAPI.init(), curMonth: 0, curYear: 0};
+    var today = new Date();
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1;
+    this.state = { startDates: calendarAPI.init(), curMonth: month, curYear: year};
   }
 
   public onChangeListener(startDates, action, updatedMonth, updatedYear) {

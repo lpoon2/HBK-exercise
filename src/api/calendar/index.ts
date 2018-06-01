@@ -19,6 +19,19 @@ const fetchDates = (): Promise<DateCell[]> => {
   return Promise.resolve(dates);
 };
 
+const searchByDate = (date, reqMonth, reqYear) => {
+  var sum = 0;
+  console.log(date);
+  console.log(reqMonth);
+  console.log(reqYear);
+  dates.forEach(function (data) {
+    if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
+      sum+=1;
+    }
+  });
+  return sum;
+}
+
 const init = () => {
   var init = [];
 
@@ -80,7 +93,7 @@ const updateCalendarDown = (curDate, thisMonthLen, dates) => {
   while (dates.length < 5) {
     if (firstWeek) {
       curDate = 7 - (thisMonthLen - curDate);
-      // case when 1 is in first cell 
+      // case when 1 is in first cell
       if (curDate == 1) {
         dates = [1];
       } else {
@@ -90,7 +103,6 @@ const updateCalendarDown = (curDate, thisMonthLen, dates) => {
     } else {
       dates.push(curDate);
     }
-    console.log(dates);
     curDate += 7;
   }
   return dates;
@@ -109,7 +121,6 @@ const updateCalendar = (startDates, action, curYear, curMonth) => {
   return updatedStartDates;
 }
 
-
 export const calendarAPI = {
-  fetchDates,init, updateCalendar
+  fetchDates,init, updateCalendar, searchByDate
 };
