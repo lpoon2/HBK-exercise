@@ -10,7 +10,12 @@ interface State {
   year: number;
 }
 
-export class Header extends React.Component<{}, State> {
+interface Props {
+  eventListener: any;
+  startDates: number[];
+}
+
+export class Header extends React.Component<Props, State> {
 
   constructor() {
     super();
@@ -19,8 +24,8 @@ export class Header extends React.Component<{}, State> {
   }
 
   public navigateCalendar(e) {
-    var prev = ((this.state.month - 1) % 11 == 0) ? 11: (this.state.month - 1) % 12;
-    var next = ((this.state.month + 1) % 11 == 0) ? 11: (this.state.month + 1) % 12;
+    var prev = ((this.state.month - 1) < 0 ) ? 11: (this.state.month - 1);
+    var next = ((this.state.month + 1) > 11) ? 0: (this.state.month + 1);
     var updatedMonth = e.target.id == 'prev' ? prev : next;
     var updatedYear = this.state.year;
 
@@ -29,7 +34,8 @@ export class Header extends React.Component<{}, State> {
     } else if (updatedMonth == 0 && e.target.id == 'next') {
         updatedYear = this.state.year + 1;
     }
-
+    
+    this.props.eventListener(this.props.startDates, e.target.id, updatedMonth, updatedYear);
     this.setState({month: updatedMonth, year: updatedYear});
   }
 

@@ -4,31 +4,30 @@ import { calendarAPI } from '../api/calendar/index';
 import { Week } from './weeks';
 
 interface State {
-  dates: DateCell[];
+  startDates: number[];
 }
 
-export class Month extends React.Component<{}, State> {
+interface Props {
+  startDates: number[];
+  month: number;
+  year: number;
+}
+
+export class Month extends React.Component<Props, State> {
 
   constructor() {
     super();
-    this.state = { dates: [] };
-  }
-
-  public componentDidMount() {
-    calendarAPI.fetchDates()
-      .then((dates) => {
-        this.setState({ dates });
-      });
+    this.state = {startDates:[]};
   }
 
   public render(){
     return (
       <div className="container">
-        <Week startDate={27} />
-        <Week startDate={3} />
-        <Week startDate={10}/>
-        <Week startDate={17}/>
-        <Week startDate={24}/>
+        <Week startDate={this.props.startDates[0]} month={this.props.month} year={this.props.year}/>
+        <Week startDate={this.props.startDates[1]} month={this.props.month} year={this.props.year} />
+        <Week startDate={this.props.startDates[2]} month={this.props.month} year={this.props.year}/>
+        <Week startDate={this.props.startDates[3]} month={this.props.month} year={this.props.year}/>
+        <Week startDate={this.props.startDates[4]} month={this.props.month} year={this.props.year}/>
       </div>
     );
   }
