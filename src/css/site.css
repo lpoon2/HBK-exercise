@@ -1,5 +1,6 @@
-svg:not(:root){
-  margin-left: 65%;
+.notification {
+  margin-left: 85%;
+  margin-top: 20%;
 }
 
 .top-buffer{

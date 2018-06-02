@@ -2,6 +2,20 @@ import { DateCell } from '../../model/date';
 export const dates: DateCell[] =
   [
     {
+      date: 7,
+      year: 2018,
+      month: 5,
+      day: 4,
+      items: ["Bring boardgames to davids\'s"]
+    },
+    {
+      date: 19,
+      year: 2018,
+      month: 5,
+      day: 2,
+      items: ["Grocery with Dad", "Join Peter for lunch"]
+    },
+    {
       date: 12,
       year: 2018,
       month: 6,

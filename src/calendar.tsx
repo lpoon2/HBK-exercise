@@ -15,7 +15,7 @@ export class Calendar extends React.Component<{}, State> {
     super();
     var today = new Date();
     var year = today.getFullYear();
-    var month = today.getMonth() + 1;
+    var month = today.getMonth();
     this.state = { startDates: calendarAPI.init(), curMonth: month, curYear: year};
   }
 

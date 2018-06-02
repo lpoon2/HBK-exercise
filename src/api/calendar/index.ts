@@ -21,12 +21,9 @@ const fetchDates = (): Promise<DateCell[]> => {
 
 const searchByDate = (date, reqMonth, reqYear) => {
   var sum = 0;
-  console.log(date);
-  console.log(reqMonth);
-  console.log(reqYear);
   dates.forEach(function (data) {
     if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
-      sum+=1;
+      sum = data.items.length;
     }
   });
   return sum;

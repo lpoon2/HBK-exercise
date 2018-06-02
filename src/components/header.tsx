@@ -34,7 +34,7 @@ export class Header extends React.Component<Props, State> {
     } else if (updatedMonth == 0 && e.target.id == 'next') {
         updatedYear = this.state.year + 1;
     }
-    
+
     this.props.eventListener(this.props.startDates, e.target.id, updatedMonth, updatedYear);
     this.setState({month: updatedMonth, year: updatedYear});
   }
@@ -49,8 +49,8 @@ export class Header extends React.Component<Props, State> {
             <button className="btn btn-primary" data-calendar-nav="next" id="next" onClick={(e)=>this.navigateCalendar(e)} >Next</button>
           </div>
           <div className="btn-group">
-            <button className="btn btn-warning active" data-calendar-view="month">Month</button>
-            <button className="btn btn-warning" data-calendar-view="week">Week</button>
+            <button className="btn btn-warning active" data-calendar-view="month"><Link to="/month">Month</Link></button>
+            <button className="btn btn-warning" data-calendar-view="week"><Link to="/week">Week</Link></button>
           </div>
         </div>
         <div className="month">

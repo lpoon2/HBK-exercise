@@ -10,22 +10,18 @@ interface Props {
 export class Notification extends React.Component<Props, {}> {
 
   public displayNumber() {
-    console.log(this.props.month);
-    console.log(this.props.year);
-    console.log(this.props.date);
+
     return calendarAPI.searchByDate(this.props.date, this.props.month, this.props.year);
   }
 
   public render() {
-    if (/*this.displayNumber()*/ true){
+    if (this.displayNumber()){
       return (
-        <svg width="100" height="100">
-          <circle cx="40" cy="40" r="20" fill="red" />
-          <text x="50%" y="30%" text-anchor="middle" fill="#fff" dy=".3em">
-            <tspan x="35%" dy=".6em">{this.displayNumber()}</tspan>
-          </text>
-        </svg>
+        <button type="button" className="btn btn-lg btn-danger notification" data-toggle="popover" title="things to do" data-content="0">{this.displayNumber()}</button>
       );
     }
+    return (
+      <button type="button" className="btn btn-secondary notification" data-toggle="popover" title="no events" data-content="0">0</button>
+    );
   }
 }
