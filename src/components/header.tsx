@@ -1,21 +1,12 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-const monthNames =  ["January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
-
 interface State {
   month: number;
   year: number;
 }
 
-interface Props {
-  eventListener: any;
-  startDates: number[];
-}
-
-export class Header extends React.Component<Props, State> {
+export class Header extends React.Component<{}, State> {
 
   constructor() {
     super();
@@ -23,41 +14,54 @@ export class Header extends React.Component<Props, State> {
     this.state = { month: today.getMonth(), year: today.getFullYear()};
   }
 
-  public navigateCalendar(e) {
-    var prev = ((this.state.month - 1) < 0 ) ? 11: (this.state.month - 1);
-    var next = ((this.state.month + 1) > 11) ? 0: (this.state.month + 1);
-    var updatedMonth = e.target.id == 'prev' ? prev : next;
-    var updatedYear = this.state.year;
-
-    if (updatedMonth == 11 && e.target.id == 'prev') {
-        updatedYear = this.state.year - 1;
-    } else if (updatedMonth == 0 && e.target.id == 'next') {
-        updatedYear = this.state.year + 1;
+  public getMonthYear() {
+    var hash = window.location.hash.split('/');
+    if (hash.length != 4) {
+      var today = new Date();
+      return today.getMonth()+1 + "/" + today.getFullYear();
     }
-
-    this.props.eventListener(this.props.startDates, e.target.id, updatedMonth, updatedYear);
-    this.setState({month: updatedMonth, year: updatedYear});
+    return hash[2] + "/" + hash[3]; // [2] - month [3] - year
   }
 
+  public getStartDate() {
+    var hash = window.location.hash.split('/');
+    var month,year;
+    var today = new Date();
+
+    if (hash.length != 4) {
+      month = today.getMonth() + 1;
+      year = today.getFullYear();
+    } else {
+      month = parseInt(hash[2]);
+      year = parseInt(hash[3]);
+    }
+    var firstDay = new Date(year, month - 1, 1);
+    console.log([new Date(year, month - 1, 0).getDate(), firstDay.getDay()]);
+    return new Date(year, month - 1, 0).getDate() - (firstDay.getDay() - 1) ;
+  }
+  /*
+  Use <Link to=/month/year >
+  - get month year from url (window location hash)
+  - pass in month year to weekView component
+  */
   public render() {
     return (
-      <div className="page-header">
-        <div className="pull-right form-inline">
+      <div className="container">
+      <div className="pull-right form-inline">
           <div className="btn-group">
-            <button className="btn btn-primary" data-calendar-nav="prev" id="prev" onClick={(e)=>this.navigateCalendar(e)} >Prev</button>
-            <button className="btn" data-calendar-nav="today">Current</button>
-            <button className="btn btn-primary" data-calendar-nav="next" id="next" onClick={(e)=>this.navigateCalendar(e)} >Next</button>
+            <button className="btn btn-warning active" data-calendar-view="month">
+              <Link to={"/month/"+this.getMonthYear()}>
+              Month
+            </Link>
+            </button>
+            <button className="btn btn-warning" data-calendar-view="week">
+              <Link to={"/week/"+this.getStartDate()+"/"+this.getMonthYear()}>
+                Week
+              </Link>
+            </button>
           </div>
-          <div className="btn-group">
-            <button className="btn btn-warning active" data-calendar-view="month"><Link to="/month">Month</Link></button>
-            <button className="btn btn-warning" data-calendar-view="week"><Link to="/week">Week</Link></button>
-          </div>
-        </div>
-        <div className="month">
-    		    <h1>{monthNames[this.state.month]}  {this.state.year}</h1>
-    		  <small>Calendar App for HBK software internship</small>
-        </div>
     	</div>
+    </div>
     );
   }
 }

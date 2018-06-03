@@ -8,9 +8,9 @@ export const AppRouter: React.StatelessComponent<{}> = () => {
   return (
     <Router history={hashHistory}>
       <Route path="/" component={Calendar} >
-        <IndexRoute component={Calendar} />
-        <Route path="/month" component={Calendar} />
-        <Route path="/week" component={WeekDetail} />
+        <IndexRoute component={Month} />
+        <Route path="/month/:month/:year" component={Month} />
+        <Route path="/week/:startDate/:month/:year" component={WeekDetail} />
       </Route>
     </Router>
   );

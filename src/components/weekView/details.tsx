@@ -2,6 +2,8 @@ import * as React from 'react';
 import { DateCell } from '../../model/date';
 import { Notification } from '../notification';
 
+const dayNames =  ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 interface State {
   dates: DateCell[];
   monthLen: number; /*number of days each month has*/
@@ -26,6 +28,12 @@ export class Details extends React.Component<Props,State>{
     return new Date(this.props.year, this.props.month, 0).getDate();
   }
 
+  public getDayName() {
+    var date = new Date(this.props.year, this.props.month-2, this.props.date);
+    console.log([this.props.month,this.props.date]);
+    return dayNames[date.getDay()];
+  }
+
   public getDate(date,len) {
     var remainder = (date) % len;
     return remainder == 0? len : remainder;
@@ -33,11 +41,10 @@ export class Details extends React.Component<Props,State>{
 
   public render() {
     return (
-        <div className ="row">
           <div className="col-lg-1">
-            Sunday
+            {this.getDayName()}
             <span className="pull-right"></span>
-            <p>{this.getDate((this.props.date), this.daysInMonth())}</p>
+            <p>{this.props.date}</p>
             <ul className="list-group">
               <li className="list-group-item">Cras justo odio</li>
               <li className="list-group-item">Dapibus ac facilisis in</li>
@@ -46,7 +53,7 @@ export class Details extends React.Component<Props,State>{
               <li className="list-group-item">Vestibulum at eros</li>
             </ul>
           </div>
-        </div>
+
     );
   }
 }

@@ -3,6 +3,10 @@
   margin-top: 20%;
 }
 
+.btn-group {
+    left: 50%;
+}
+
 .top-buffer{
   margin-top: 20px;
 }
@@ -24,16 +28,36 @@
 .month {
   padding-left: 1%;
 }
-.container {
-  width: 1820px;
+.details {
+  margin-top: 15%;
+  width: 1830px;
 }
-
+.container {
+  width: 1680px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin-top: 5px;
+}
+#details {
+  width: 1820px;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin-top: 5px;
+}
 .row .col-lg-1 {
-  width:  260px;
+  width:  240px;
   height: 150px;
   border-style: outset;
 }
-
+.details .col-lg-1 {
+  width:  240px;
+  height: 500px;
+  border-style: outset;
+}
 .pull-right {
   float: right;
 }
