@@ -11,16 +11,16 @@ export class Header extends React.Component<{}, State> {
   constructor() {
     super();
     var today = new Date();
-    this.state = { month: today.getMonth(), year: today.getFullYear()};
+    this.state = { month: today.getMonth()+1, year: today.getFullYear()};
   }
 
   public getMonthYear() {
     var hash = window.location.hash.split('/');
     if (hash.length != 4) {
       var today = new Date();
-      return today.getMonth()+1 + "/" + today.getFullYear();
+      return today.getMonth() + "/" + today.getFullYear();
     }
-    return hash[2] + "/" + hash[3]; // [2] - month [3] - year
+    return (parseInt(hash[2]) - 1) + "/" + hash[3]; // [2] - month [3] - year
   }
 
   public getStartDate() {
@@ -36,14 +36,9 @@ export class Header extends React.Component<{}, State> {
       year = parseInt(hash[3]);
     }
     var firstDay = new Date(year, month - 1, 1);
-    console.log([new Date(year, month - 1, 0).getDate(), firstDay.getDay()]);
     return new Date(year, month - 1, 0).getDate() - (firstDay.getDay() - 1) ;
   }
-  /*
-  Use <Link to=/month/year >
-  - get month year from url (window location hash)
-  - pass in month year to weekView component
-  */
+
   public render() {
     return (
       <div className="container">

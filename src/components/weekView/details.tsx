@@ -20,7 +20,7 @@ export class Details extends React.Component<Props,State>{
   constructor() {
     super();
     var today = new Date();
-    var len = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    var len = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
     this.state = {dates: [], monthLen: len};
   }
 
@@ -30,7 +30,6 @@ export class Details extends React.Component<Props,State>{
 
   public getDayName() {
     var date = new Date(this.props.year, this.props.month-2, this.props.date);
-    console.log([this.props.month,this.props.date]);
     return dayNames[date.getDay()];
   }
 

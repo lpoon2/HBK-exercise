@@ -18,7 +18,7 @@ export class Week extends React.Component<Props,State>{
   constructor() {
     super();
     var today = new Date();
-    var len = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+    var len = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
     this.state = {dates: [], monthLen: len};
   }
 

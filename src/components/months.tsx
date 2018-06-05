@@ -4,7 +4,7 @@ import { calendarAPI } from '../api/calendar/index';
 import { Week } from './weeks';
 import { Link } from 'react-router';
 
-const monthNames =  ["January", "February", "March", "April", "May", "June",
+const monthNames =  ["","January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
@@ -19,29 +19,22 @@ export class Month extends React.Component<{}, State> {
   constructor() {
     super();
     var today = new Date();
-    this.state = {startDates: calendarAPI.init(), month: today.getMonth(), year: today.getFullYear()};
-  }
-
-  public onChangeListener(startDates, action, updatedMonth, updatedYear) {
-    var updatedStartDates = calendarAPI.updateCalendar(startDates, action, updatedYear, updatedMonth + 1);
-    this.setState({startDates: updatedStartDates, month: updatedMonth, year: updatedYear});
+    this.state = {startDates: calendarAPI.init(), month: today.getMonth()+1, year: today.getFullYear()};
   }
 
   public navigateCalendar(e) {
-    var prev = ((this.state.month - 1) < 0 ) ? 11: (this.state.month - 1);
-    var next = ((this.state.month + 1) > 11) ? 0: (this.state.month + 1);
+    var prev = ((this.state.month - 1) < 1 ) ? 12: (this.state.month - 1);
+    var next = ((this.state.month + 1) > 12) ? 1: (this.state.month + 1);
     var updatedMonth = e.target.id == 'prev' ? prev : next;
     var updatedYear = this.state.year;
 
-    if (updatedMonth == 11 && e.target.id == 'prev') {
+    if (updatedMonth == 12 && e.target.id == 'prev') {
         updatedYear = this.state.year - 1;
-    } else if (updatedMonth == 0 && e.target.id == 'next') {
+    } else if (updatedMonth == 1 && e.target.id == 'next') {
         updatedYear = this.state.year + 1;
     }
-
-    //this.props.eventListener(this.props.startDates, e.target.id, updatedMonth, updatedYear);
-    //this.setState({month: updatedMonth, year: updatedYear});
-    this.onChangeListener(this.state.startDates, e.target.id, updatedMonth, updatedYear);
+    var updatedStartDates = calendarAPI.updateCalendar(this.state.startDates, e.target.id, updatedYear, updatedMonth);
+    this.setState({startDates: updatedStartDates, month: updatedMonth, year: updatedYear});
   }
 
   public render(){
@@ -49,12 +42,12 @@ export class Month extends React.Component<{}, State> {
       <div className="container">
         <div className="pull-right form-inline">
           <div className="btn-group">
-            <Link to={"/month/"+(this.state.month)+"/"+(this.state.year)} id="prev">
+            <Link to={"/month/"+(this.state.month-1)+"/"+(this.state.year)} id="prev">
               <button className="btn btn-primary" data-calendar-nav="prev" id="prev" onClick={(e)=>this.navigateCalendar(e)} >
                 Prev
               </button>
             </Link>
-            <Link to={"/month/"+(this.state.month+2)+"/"+(this.state.year)} id="next">
+            <Link to={"/month/"+(this.state.month+1)+"/"+(this.state.year)} id="next">
               <button className="btn btn-primary" data-calendar-nav="next" id="next" onClick={(e)=>this.navigateCalendar(e)} >
                 Next
               </button>

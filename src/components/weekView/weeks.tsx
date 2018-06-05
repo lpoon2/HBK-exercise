@@ -3,6 +3,7 @@ import { DateCell } from '../../model/date';
 import { Details } from './details';
 import { calendarAPI } from '../../api/calendar/index';
 import { Week } from '../weeks'
+import { Link } from 'react-router';
 
 interface State {
   date: number;
@@ -15,18 +16,45 @@ export class WeekDetail extends React.Component<{},State> {
   constructor() {
     super();
     var hash = window.location.hash.split('/');
-
     this.state = {date: parseInt(hash[2]), month: parseInt(hash[3]), year: parseInt(hash[4])};
   }
+
   public displayNumber() {
     return calendarAPI.searchByDate(this.state.date, this.state.month, this.state.year);
   }
-  public getFirstDate() {
-    var hash = window.location.hash.split('/');
-    return parseInt(hash[2]);
-  }
-  public navigateCalendar(e){
-    return e;
+
+  public navigateWeek(e) {
+    console.log(e); //"qsdvqk"
+    var date = new Date(this.state.year, this.state.month, 0);
+    var firstDay = (new Date(this.state.year, this.state.month - 2, 1)).getDay();
+    var nextMonth = new Date(this.state.year, this.state.month % 12, 0);
+    var back = (this.state.month - 1) < 1;
+    var lastMonth = new Date(this.state.year, back ? 12 : (this.state.month - 1) ,0);
+    var monthLen = date.getDate();
+    var nextMonthLen = nextMonth.getDate();
+    var lastMonthLen = lastMonth.getDate();
+
+    if (e == 'next') {
+      if ((this.state.date + 7) <= monthLen) {
+        this.setState({date: this.state.date + 7, month: this.state.month , year: this.state.year});
+        return "/week/" + (this.state.date + 7) + "/" + this.state.month + "/" + this.state.year;
+      }
+      else {
+        var offset = 7 - (monthLen - this.state.date);
+        this.setState({date: offset, month: this.state.month + 1 , year: this.state.year});
+        return "/week/" + offset + "/" + this.state.month + "/" + this.state.year;
+      }
+    } else {
+      if ((this.state.date - 7) >= 1) {
+        this.setState({date: (this.state.date - 7), month: this.state.month, year: this.state.year});
+        return "/week/" + (this.state.date - 7) + "/" + this.state.month + "/" + this.state.year;
+      }
+      else {
+        var offset = 7 - (monthLen - this.state.date);
+        this.setState({date: lastMonthLen - (firstDay - 1), month: back ? 12 : this.state.month - 1 , year: back ? this.state.year - 1 : this.state.year});
+        return "/week/" + offset + "/" + this.state.month + "/" + this.state.year;
+      }
+    }
   }
 
   public render() {
@@ -34,9 +62,12 @@ export class WeekDetail extends React.Component<{},State> {
       <div className="container">
         <div className="pull-right form-inline">
           <div className="btn-group">
-            <button className="btn btn-primary" data-calendar-nav="prev" id="prev" onClick={(e)=>this.navigateCalendar(e)} >Prev</button>
-            <button className="btn" data-calendar-nav="today">Current</button>
-            <button className="btn btn-primary" data-calendar-nav="next" id="next" onClick={(e)=>this.navigateCalendar(e)} >Next</button>
+            <button className="btn btn-primary" data-calendar-nav="prev" id="prev">
+              Prev
+            </button>
+            <button className="btn btn-primary" data-calendar-nav="next" id="next">
+              Next
+            </button>
           </div>
         </div>
         <div className="month">
