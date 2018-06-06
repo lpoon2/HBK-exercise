@@ -23,7 +23,7 @@ export class Week extends React.Component<Props,State>{
   }
 
   public daysInMonth () {
-    return new Date(this.props.year, this.props.month, 0).getDate();
+    return new Date(this.props.year, this.props.month - 1, 0).getDate();
   }
 
   public getDate(date,len) {

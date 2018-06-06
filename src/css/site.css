@@ -3,6 +3,11 @@
   margin-top: 20%;
 }
 
+#add-button {
+  margin-left: 50%;
+  margin-top: 10px;
+}
+
 .btn-group {
     left: 50%;
 }

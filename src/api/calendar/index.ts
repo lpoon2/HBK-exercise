@@ -2,19 +2,20 @@ import { DateCell } from '../../model/date';
 import { dates } from './mockData';
 /*
 * Note: use Month - 1 to get the day in a week
-*       but use Month to get current month len
+* but use Month to get current month len
 */
-var today = new Date();
-var day = today.getDay();
-var date = today.getDate();
-var year = today.getFullYear();
-var month = today.getMonth() + 1;
-var prevMonthLen = new Date(year, month - 1, 0).getDate();
-var monthLen = new Date(year, month, 0).getDate();
-var nextMonthLen = new Date(year, month + 1, 0).getDate();
-var curStartDate = date-day;
-var firstDayInMonth = (new Date(year, month - 1, 1)).getDay();
-var firstWeek =  (date <= (7 - firstDayInMonth));
+let today = new Date();
+let day = today.getDay();
+let date = today.getDate();
+let year = today.getFullYear();
+let month = today.getMonth() + 1;
+let prevMonthLen = new Date(year, month - 1, 0).getDate();
+let monthLen = new Date(year, month, 0).getDate();
+let nextMonthLen = new Date(year, month + 1, 0).getDate();
+let curStartDate = date-day;
+let firstDayInMonth = (new Date(year, month - 1, 1)).getDay();
+let firstWeek =  (date <= (7 - firstDayInMonth));
+let tempData = dates;
 
 /**
 * Populate dummy date to UI
@@ -25,6 +26,30 @@ const fetchDates = (): Promise<DateCell[]> => {
 };
 
 /**
+* Data extracted from mockData be modified by adding/deleting
+* @returns modified data structure
+*/
+const getDates = () => {
+  return tempData;
+}
+
+/**
+* Append new object to current data structure
+*/
+const modifyData = (newData) => {
+  tempData = tempData.concat([newData]);
+}
+
+/**
+* Checking if the query object exist in the database
+* @returns true if the returned object has empty array
+*/
+const isNewItem = (date) => {
+  let res = searchByDate(date.date, date.month, date.year);
+  return res == 0;
+}
+
+/**
 * Search by given parameters
 * @param date input date
 * @param reqMonth in query month
@@ -32,8 +57,8 @@ const fetchDates = (): Promise<DateCell[]> => {
 * @returns data associated with given params
 */
 const searchByDate = (date, reqMonth, reqYear) => {
-  var sum = 0;
-  dates.forEach(function (data) {
+  let sum = 0;
+  tempData.forEach(function (data) {
     if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
       sum = data.items.length;
     }
@@ -42,11 +67,49 @@ const searchByDate = (date, reqMonth, reqYear) => {
 }
 
 /**
+* Search for the items assoicated with given date
+* @param date input date
+* @param reqMonth in query month
+* @param reqYear in query year
+* @returns items associated with given params
+*/
+const getItemsByDate = (date, reqMonth, reqYear) => {
+  let res = [];
+  tempData.forEach(function (data, index) {
+    if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
+      res = data.items;
+    }
+  });
+  return res;
+}
+
+/**
+* Search for the items assoicated with given date
+* @param date input date
+* @param reqMonth in query month
+* @param reqYear in query year
+* @returns items associated with given params
+*/
+const modifyExistingDate = (date, reqMonth, reqYear, newEvent) => {
+  let res = [];
+  tempData.forEach(function (data, index) {
+    if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
+      data.items = data.items.concat([newEvent]);
+      console.log('index - childItems');
+      console.log([index, data.items]);
+      console.log('time:');
+      console.log([date, reqMonth, reqYear]);
+    }
+  });
+  return 0;
+}
+
+/**
 * Initiatize the calendar date values
 * @returns array of dates for each week in current month
 */
 const init = () => {
-  var init = [];
+  let init = [];
   if (firstDayInMonth == 0) {
     init.push(1);
   } else {
@@ -71,6 +134,15 @@ const buildStartDates = (curStartDate, monthLen, dates) => {
   return dates;
 }
 
+/**
+* Helper function for building starting dates of the calendar page
+* @param curStartDate input date
+* @param prevMonthLen in query month
+* @param dates in query year
+* @param curYear
+* @param curMonth
+* @returns starting dates
+*/
 const updateCalendarUp = (curStartDate, prevMonthLen, dates, curYear, curMonth) => {
   //case when 1 is in first cell
   if (curStartDate == 1) {
@@ -78,7 +150,7 @@ const updateCalendarUp = (curStartDate, prevMonthLen, dates, curYear, curMonth) 
     curStartDate = dates[0];
   }
   curStartDate = curStartDate - 7;
-  var firstWeek = true; // flag for case when 1 is in the first week and not in first cell
+  let firstWeek = true; // flag for case when 1 is in the first week and not in first cell
   while (dates.length < 5) {
     if (curStartDate < 1) {
       dates.push(prevMonthLen + curStartDate);
@@ -93,8 +165,15 @@ const updateCalendarUp = (curStartDate, prevMonthLen, dates, curYear, curMonth) 
   return dates.reverse();
 }
 
+/**
+* Helper function for building starting dates of the calendar page
+* @param curStartDate input date
+* @param thisMonthLen in query month
+* @param dates in query year
+* @returns starting dates
+*/
 const updateCalendarDown = (curStartDate, thisMonthLen, dates) => {
-  var firstWeek = true;
+  let firstWeek = true;
   while (dates.length < 5) {
     if (firstWeek) {
       curStartDate = 7 - (thisMonthLen - curStartDate);
@@ -113,16 +192,24 @@ const updateCalendarDown = (curStartDate, thisMonthLen, dates) => {
   return dates;
 }
 
+/**
+* Navigate between pages in the calendar view
+* @param startDates current start dates
+* @param action previous or next page
+* @param curYear
+* @param curMonth
+* @returns starting dates
+*/
 const updateCalendar = (startDates, action, curYear, curMonth) => {
-  var updatedStartDates = [];
+  let updatedStartDates = [];
 
   if (action == 'prev') {
     if ((new Date(curYear, curMonth , 1)).getDay() == 0 ) {
-      updatedStartDates.push(1);
+      updatedStartDates.push((new Date(curYear, curMonth , 0)).getDate() - 6);
     }
     else {
-      updatedStartDates.push(startDates[0]);
-    }
+    updatedStartDates.push(startDates[0]);
+  }
     updatedStartDates = updateCalendarUp(updatedStartDates[0], new Date(curYear, (curMonth-1)>0?(curMonth-1):12, 0).getDate(), updatedStartDates, curYear, curMonth);
   } else {
     updatedStartDates.push(startDates[4]);
@@ -132,5 +219,13 @@ const updateCalendar = (startDates, action, curYear, curMonth) => {
 }
 
 export const calendarAPI = {
-  fetchDates, init, updateCalendar, searchByDate
+  fetchDates,
+  init,
+  updateCalendar,
+  searchByDate,
+  getItemsByDate,
+  isNewItem,
+  getDates,
+  modifyData,
+  modifyExistingDate
 };

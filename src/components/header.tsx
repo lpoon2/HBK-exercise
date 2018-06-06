@@ -35,8 +35,12 @@ export class Header extends React.Component<{}, State> {
       month = parseInt(hash[2]);
       year = parseInt(hash[3]);
     }
-    var firstDay = new Date(year, month - 1, 1);
-    return new Date(year, month - 1, 0).getDate() - (firstDay.getDay() - 1) ;
+    var firstDay = new Date(year, month-1 , 1);
+    if (firstDay.getDay() == 0) {
+      return 1;
+    }
+
+    return new Date(year, month - 1, 0).getDate() - firstDay.getDay() + 1 ;
   }
 
   public render() {

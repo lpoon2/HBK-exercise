@@ -1,41 +1,54 @@
 import * as React from 'react';
 import { DateCell } from '../../model/date';
 import { Notification } from '../notification';
+import { calendarAPI } from '../../api/calendar/index';
 
 const dayNames =  ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 interface State {
-  dates: DateCell[];
-  monthLen: number; /*number of days each month has*/
+  items: String[];
 }
 
 interface Props {
   date: number;
   month: number;
   year: number;
+  items: String[];
 }
 
 export class Details extends React.Component<Props,State>{
 
   constructor() {
     super();
-    var today = new Date();
-    var len = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-    this.state = {dates: [], monthLen: len};
+    this.state = {items: []};
   }
 
-  public daysInMonth () {
-    return new Date(this.props.year, this.props.month, 0).getDate();
-  }
+  public index = 0;
 
   public getDayName() {
     var date = new Date(this.props.year, this.props.month-2, this.props.date);
     return dayNames[date.getDay()];
   }
 
+  public getItems() {
+    //var itemsRet = calendarAPI.getItemsByDate(this.props.date, this.props.month, this.props.year);
+    return this.props.items;
+  }
+
   public getDate(date,len) {
     var remainder = (date) % len;
     return remainder == 0? len : remainder;
+  }
+
+  public generateKey() {
+    this.index = this.index + 1;
+    return  this.index+ "-" + this.props.date + "-" + this.props.month + "-" + this.props.year;
+  }
+
+  public itemRow = (items: String) => {
+    return (
+      <li key={this.generateKey()} className="list-group-item">{items}</li>
+    )
   }
 
   public render() {
@@ -45,14 +58,9 @@ export class Details extends React.Component<Props,State>{
             <span className="pull-right"></span>
             <p>{this.props.date}</p>
             <ul className="list-group">
-              <li className="list-group-item">Cras justo odio</li>
-              <li className="list-group-item">Dapibus ac facilisis in</li>
-              <li className="list-group-item">Morbi leo risus</li>
-              <li className="list-group-item">Porta ac consectetur ac</li>
-              <li className="list-group-item">Vestibulum at eros</li>
+              {this.getItems().map(this.itemRow)}
             </ul>
           </div>
-
     );
   }
 }
