@@ -98,7 +98,6 @@ const modifyExistingDate = (date, reqMonth, reqYear, newEvent) => {
   tempData.forEach(function (data, index) {
     if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
       //data.items = data.items.concat([newEvent]);
-
     }
   });
   return 0;

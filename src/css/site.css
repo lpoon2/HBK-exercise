@@ -3,6 +3,10 @@
   margin-top: 20%;
 }
 
+.delete-btn{
+    float: right;
+}
+
 #add-button {
   margin-left: 50%;
   margin-top: 10px;
