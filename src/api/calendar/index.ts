@@ -36,7 +36,10 @@ const getDates = () => {
 /**
 * Append new object to current data structure
 */
-const modifyData = (newData) => {
+const modifyData = (newData, datePicked) => {
+  newData.date = datePicked.date;
+  newData.month = datePicked.month;
+  newData.year = datePicked.year;
   tempData = tempData.concat([newData]);
 }
 
@@ -94,11 +97,8 @@ const modifyExistingDate = (date, reqMonth, reqYear, newEvent) => {
   let res = [];
   tempData.forEach(function (data, index) {
     if ((data.date == date) && (data.year == reqYear) && (data.month == reqMonth)) {
-      data.items = data.items.concat([newEvent]);
-      console.log('index - childItems');
-      console.log([index, data.items]);
-      console.log('time:');
-      console.log([date, reqMonth, reqYear]);
+      //data.items = data.items.concat([newEvent]);
+
     }
   });
   return 0;

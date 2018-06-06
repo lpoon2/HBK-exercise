@@ -1,5 +1,5 @@
 import { DateCell } from '../../model/date';
-export var dates: DateCell[] =
+export let dates: DateCell[] =
   [
     {
       date: 7,

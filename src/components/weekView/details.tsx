@@ -31,7 +31,6 @@ export class Details extends React.Component<Props,State>{
   }
 
   public getItems() {
-    //var itemsRet = calendarAPI.getItemsByDate(this.props.date, this.props.month, this.props.year);
     return this.props.items;
   }
 

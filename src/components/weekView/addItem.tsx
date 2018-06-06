@@ -28,6 +28,7 @@ interface State {
   show: Boolean;
   saveItem: DateCell;
   event: String;
+  date: any;
 }
 
 export class AddItem extends React.Component<Props,State> {
@@ -41,49 +42,42 @@ export class AddItem extends React.Component<Props,State> {
       day: 0, /*Sunday is 0, Saturday is 6 etc*/
       items: []
     };
-    this.state = {show: false, saveItem: d , event: ''};
+    this.state = {show: false, saveItem: d , event: '', date: {}};
   }
 
+  public currentPick = {};
+  public event = '';
   public getDatePick(date) {
     var outputDate = date.split('/');
     var updateSavedItem = this.state.saveItem;
     updateSavedItem.month = parseInt(outputDate[0]);
     updateSavedItem.date = parseInt(outputDate[1]);
     updateSavedItem.year = parseInt(outputDate[2]);
-    this.setState({show: this.state.show, saveItem: updateSavedItem, event: this.state.event});
+    this.currentPick = updateSavedItem;
+    this.setState({show: this.state.show, saveItem: this.state.saveItem, event: this.state.event, date: {}});
   }
 
   public addEvent() {
     var oldItem = this.state.saveItem.items;
     var newItem = [this.state.event];
-    var curItem = this.state.saveItem;
-    var isNewItem = calendarAPI.isNewItem({date:curItem.date, month:curItem.month, year:curItem.year});
-    console.log('addItem-addEvent');
-    console.log(isNewItem);
-    console.log('addItem-isNewItem dates');
-    console.log({date:curItem.date, month:curItem.month, year:curItem.year});
+    var datePicked = this.state.date;
     var prevObj = this.state.saveItem;
     prevObj.items = newItem;
-    if (isNewItem) {
-      calendarAPI.modifyData(prevObj);
-    } else {
-      calendarAPI.modifyExistingDate(curItem.date, curItem.month, curItem.year, this.state.event);
-    }
-
     this.handleClose();
-    this.props.onEventAdd(curItem);
+    this.props.onEventAdd(this.event, this.currentPick);
   }
 
   public handleClose() {
-    this.setState({show: false, saveItem: this.state.saveItem, event: ''});
+    this.setState({show: false, saveItem: this.state.saveItem, event: '', date: this.state.date});
   }
 
   public handleShow() {
-    this.setState({ show: true, saveItem: this.state.saveItem, event: this.state.event});
+    this.setState({ show: true, saveItem: this.state.saveItem, event: this.state.event, date: this.state.date});
   }
 
   public handleChange(e) {
-    this.setState({ show: true, saveItem: this.state.saveItem, event: e.target.value });
+    this.event = e.target.value;
+    this.setState({ show: true, saveItem: this.state.saveItem, event: e.target.value, date: this.state.date});
   }
 
   public render() {
