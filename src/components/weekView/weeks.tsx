@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { AddItem } from './addItem';
 import { dates } from '../../api/calendar/mockData'
 
-const monthNames =  ["January", "February", "March", "April", "May", "June",
+const monthNames =  ["", "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
@@ -31,15 +31,6 @@ export class WeekDetail extends React.Component<{},State> {
       payload: dates,
       childItems: this.buildChildItems(parseInt(hash[2]), parseInt(hash[3]), parseInt(hash[4]))
     };
-    // let children = this.buildChildItems(parseInt(hash[2]), parseInt(hash[3]), parseInt(hash[4]));
-    // //this.state.childItems = children
-    // this.setState({
-    //   date:this.state.date,
-    //   month:this.state.month,
-    //   year:this.state.year,
-    //   payload: this.state.payload,
-    //   childItems: children
-    // });
   }
   public tempData = dates;
   public buildChildItems(date, month, year) {

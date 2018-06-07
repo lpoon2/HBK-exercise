@@ -36,7 +36,25 @@ export class Month extends React.Component<{}, State> {
     var updatedStartDates = calendarAPI.updateCalendar(this.state.startDates, e.target.id, updatedYear, updatedMonth);
     this.setState({startDates: updatedStartDates, month: updatedMonth, year: updatedYear});
   }
+  public timeElpise = 0;
+  public firstClick = false;
 
+  public response(e,firstDay) {
+    if (!(this.firstClick)) {
+      this.firstClick = !(this.firstClick);
+      this.timeElpise = (new Date()).getSeconds();
+    } else {
+      let diff = (new Date()).getSeconds() - this.timeElpise;
+      console.log(e.target);
+      //getElementsByTagName("P")[0].innerHTML
+      if ((diff == 0) || (diff == 1)) {
+        console.log('#/week/' + this.state.startDates[0] + '/' + this.state.month + '/' + this.state.year);
+        window.location.href = '#/week/' + firstDay + '/' + this.state.month + '/' + this.state.year;
+      }
+      this.firstClick = !(this.firstClick);
+    }
+    return e;
+  }
   public render(){
     return (
       <div className="container">
@@ -58,11 +76,21 @@ export class Month extends React.Component<{}, State> {
     		    <h1>{monthNames[this.state.month]}  {this.state.year}</h1>
     		  <small>Calendar App for HBK software internship</small>
         </div>
+        <a onClick={(e)=>this.response(e, this.state.startDates[0])}>
         <Week startDate={this.state.startDates[0]} month={this.state.month} year={this.state.year}/>
+        </a>
+        <a onClick={(e)=>this.response(e, this.state.startDates[1])}>
         <Week startDate={this.state.startDates[1]} month={this.state.month} year={this.state.year} />
+        </a>
+        <a onClick={(e)=>this.response(e, this.state.startDates[2])}>
         <Week startDate={this.state.startDates[2]} month={this.state.month} year={this.state.year}/>
+        </a>
+        <a onClick={(e)=>this.response(e, this.state.startDates[3])}>
         <Week startDate={this.state.startDates[3]} month={this.state.month} year={this.state.year}/>
+        </a>
+        <a onClick={(e)=>this.response(e, this.state.startDates[4])}>
         <Week startDate={this.state.startDates[4]} month={this.state.month} year={this.state.year}/>
+        </a>
       </div>
     );
   }
