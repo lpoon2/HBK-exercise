@@ -53,12 +53,10 @@ export class WeekDetail extends React.Component<{},State> {
   public navigateWeekNext() {
     var date = new Date(this.state.year, this.state.month, 0);
     var firstDay = (new Date(this.state.year, this.state.month - 2, 1)).getDay();
-    var nextMonth = new Date(this.state.year, this.state.month % 12, 0);
-    var back = (this.state.month - 1) < 1;
-    var lastMonth = new Date(this.state.year, back ? 12 : (this.state.month - 1) ,0);
+    var next = (this.state.month + 1) > 12;
+    var nextMonth = new Date(this.state.year, next ? 1 : (this.state.month + 1),0);
     var monthLen = date.getDate();
     var nextMonthLen = nextMonth.getDate();
-    var lastMonthLen = lastMonth.getDate();
     var nextItems = [];
 
     if ((this.state.date + 7) <= monthLen) {
@@ -73,11 +71,13 @@ export class WeekDetail extends React.Component<{},State> {
     }
     else {
       var offset = 7 - (monthLen - this.state.date);
-      nextItems = this.buildChildItems(offset, this.state.month + 1, this.state.year);
+      var monthNext = next ? 1 : this.state.month + 1;
+      var yearNext = next ? this.state.year + 1 : this.state.year;
+      nextItems = this.buildChildItems(offset, monthNext, yearNext);
       this.setState({
         date: offset,
-        month: this.state.month + 1,
-        year: this.state.year,
+        month: monthNext,
+        year: yearNext,
         childItems: nextItems,
         payload: this.state.payload
       });
