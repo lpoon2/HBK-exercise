@@ -109,12 +109,22 @@ const modifyExistingDate = (date, reqMonth, reqYear, newEvent) => {
 */
 const init = () => {
   let init = [];
+  let start = [];
   if (firstDayInMonth == 0) {
-    init.push(1);
+    start.push(1);
   } else {
-    init.push(prevMonthLen - firstDayInMonth + 1);
+    start.push(prevMonthLen - firstDayInMonth + 1);
   }
-  init = buildStartDates(curStartDate, monthLen, init);
+  console.log(start);
+  init = buildStartDates(curStartDate, monthLen, start);
+  console.log('init');
+  console.log(init);
+
+  if (firstDayInMonth != 0) {
+  let temp = init.slice(1, init.length);
+  let res = updateCalendarUp(init[1], prevMonthLen, temp.reverse(), year, month);
+  return res; 
+  }
   return init;
 }
 
@@ -123,9 +133,12 @@ const init = () => {
 * @returns array of dates for each week in current month
 */
 const buildStartDates = (curStartDate, monthLen, dates) => {
+  console.log('in build start');
+  console.log([curStartDate, monthLen, dates]);
   dates.push(dates[0] != curStartDate ? curStartDate : curStartDate + 7);
 
   while (curStartDate + 7 <= monthLen) {
+    console.log(curStartDate + 7);
     dates.push(curStartDate + 7);
     curStartDate += 7;
   }
@@ -211,7 +224,7 @@ const updateCalendar = (startDates, action, curYear, curMonth) => {
   }
     updatedStartDates = updateCalendarUp(updatedStartDates[0], new Date(curYear, (curMonth-1)>0?(curMonth-1):12, 0).getDate(), updatedStartDates, curYear, curMonth);
   } else {
-    updatedStartDates.push(startDates[4]);
+    updatedStartDates.push(startDates[startDates.length-1]);
     updatedStartDates = updateCalendarDown(updatedStartDates[0], new Date(curYear, curMonth-1, 0).getDate(), updatedStartDates);
   }
   return updatedStartDates;

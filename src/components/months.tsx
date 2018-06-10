@@ -34,6 +34,8 @@ export class Month extends React.Component<{}, State> {
         updatedYear = this.state.year + 1;
     }
     var updatedStartDates = calendarAPI.updateCalendar(this.state.startDates, e.target.id, updatedYear, updatedMonth);
+    console.log([this.state.startDates, e.target.id, updatedYear, updatedMonth]);
+    console.log({startDates: updatedStartDates, month: updatedMonth, year: updatedYear});
     this.setState({startDates: updatedStartDates, month: updatedMonth, year: updatedYear});
   }
   public timeElpise = 0;
