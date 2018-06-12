@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactBootstrap from 'react-bootstrap';
 import { DatePick } from './addDate';
-import { dates } from '../../api/calendar/mockData'
+import { dates } from '../../api/data/mockData'
 import { DateCell } from '../../model/date';
 import { calendarAPI } from '../../api/calendar/index';
 import { WeekDetail } from './weeks'

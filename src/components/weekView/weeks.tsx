@@ -5,7 +5,7 @@ import { calendarAPI } from '../../api/calendar/index';
 import { Week } from '../weeks'
 import { Link } from 'react-router';
 import { AddItem } from './addItem';
-import { dates } from '../../api/calendar/mockData'
+import { dates } from '../../api/data/mockData'
 
 const monthNames =  ["", "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
@@ -21,6 +21,8 @@ interface State {
 
 export class WeekDetail extends React.Component<{},State> {
 
+  public tempData = dates;
+
   constructor() {
     super();
     var hash = window.location.hash.split('/');
@@ -32,7 +34,7 @@ export class WeekDetail extends React.Component<{},State> {
       childItems: this.buildChildItems(parseInt(hash[2]), parseInt(hash[3]), parseInt(hash[4]))
     };
   }
-  public tempData = dates;
+
   public buildChildItems(date, month, year) {
     var res = [];
     for(var i = 0 ; i < 7 ; i++) {
@@ -130,21 +132,13 @@ export class WeekDetail extends React.Component<{},State> {
   }
 
   public onEventAdd(newItem, datePicked) {
-    console.log('current data:');
-    console.log(this.state.payload);
-    console.log('weeks-onEventAdd:');
-    console.log(newItem);
     var updateChildItems = this.state.childItems;
     var cur_state = this.state;
     var matched = false;
-    console.log('weeks-onEventAdd-current_state:');
-    console.log(cur_state);
 
     this.state.childItems.forEach(function(data, index) {
       if(((cur_state.date + index) == datePicked.date) && (cur_state.month == datePicked.month) && (cur_state.year == datePicked.year)) {
-        console.log('weeks-matched');
         updateChildItems[index] = updateChildItems[index].concat([newItem]);
-        console.log(updateChildItems[index]);
         matched = !matched;
       }
     });
@@ -160,14 +154,10 @@ export class WeekDetail extends React.Component<{},State> {
     }
 
     let index = this.searchByDate(datePicked.date, datePicked.month, datePicked.year, newItem);
-    console.log('request date');
-    console.log([datePicked.date, datePicked.month, datePicked.year]);
+
     if (index != -1) {
-      console.log(this.state.payload[index]);
-      console.log('-------------- change');
       this.state.payload[index].items = this.state.payload[index].items.concat([newItem]);
     } else {
-      console.log('-------------- append new');
       let newObj = datePicked;
       newObj.items = [newItem];
       newObj.day = 0;

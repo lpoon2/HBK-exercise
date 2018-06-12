@@ -1,5 +1,5 @@
 import { DateCell } from '../../model/date';
-import { dates } from './mockData';
+import { dates } from '../data/mockData';
 /*
 * Note: use Month - 1 to get the day in a week
 * but use Month to get current month len
@@ -123,7 +123,7 @@ const init = () => {
   if (firstDayInMonth != 0) {
   let temp = init.slice(1, init.length);
   let res = updateCalendarUp(init[1], prevMonthLen, temp.reverse(), year, month);
-  return res; 
+  return res;
   }
   return init;
 }
