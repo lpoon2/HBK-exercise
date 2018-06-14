@@ -122,6 +122,7 @@ export class WeekDetail extends React.Component<{},State> {
 
   public searchByDate = (date, reqMonth, reqYear, item) => {
     let res = -1;
+    console.log(this.state == undefined);
     let payload = this.state == undefined ? this.tempData : this.state.payload;
     (payload).forEach(function (event, index) {
       if ((event.date == date) && (event.year == reqYear) && (event.month == reqMonth) && (event.items[0] != item)) {
@@ -135,7 +136,7 @@ export class WeekDetail extends React.Component<{},State> {
     var updateChildItems = this.state.childItems;
     var cur_state = this.state;
     var matched = false;
-
+    // append entry in the UI
     this.state.childItems.forEach(function(data, index) {
       if(((cur_state.date + index) == datePicked.date) && (cur_state.month == datePicked.month) && (cur_state.year == datePicked.year)) {
         updateChildItems[index] = updateChildItems[index].concat([newItem]);
@@ -152,16 +153,15 @@ export class WeekDetail extends React.Component<{},State> {
         payload: this.state.payload
       });
     }
-
+    //append entry in data
     let index = this.searchByDate(datePicked.date, datePicked.month, datePicked.year, newItem);
-
+    console.log(index);
     if (index != -1) {
       this.state.payload[index].items = this.state.payload[index].items.concat([newItem]);
     } else {
       let newObj = datePicked;
       newObj.items = [newItem];
       newObj.day = 0;
-      //this.state.payload = this.state.payload.concat([newObj]);
       this.setState({
         date: this.state.date,
         month: this.state.month,
@@ -169,6 +169,7 @@ export class WeekDetail extends React.Component<{},State> {
         childItems: this.state.childItems,
         payload: this.state.payload.concat([newObj])
       });
+      console.log(this.state.payload.concat([newObj]));
     }
   }
 

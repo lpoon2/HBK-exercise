@@ -38,7 +38,7 @@ export class Details extends React.Component<Props,State>{
   public itemRow = (items: String) => {
     return (
       <li key={this.generateKey()} className="list-group-item" onClick={(e)=>weekAPI.hideEle(e)}>
-        {items}  <button id={this.generateKey()} className="btn-danger delete-btn" onClick={(e)=>weekAPI.hideEle(e)}>x</button>
+        {items}  <button id={this.index.toString()} className="btn-danger delete-btn" onClick={(e)=>weekAPI.hideEle(e)}>x</button>
       </li>
     )
   }
